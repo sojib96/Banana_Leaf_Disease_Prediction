@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banana Leaf Disease Prediction</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #ffafbd, #ffc3a0);
+      font-family: 'Raleway', sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .container {
+      background: #ffe0e9;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .btn-custom {
+      background-color: #ff5733;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 15px 25px;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-custom:hover {
+      background-color: #c70039;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .alert-danger {
+      display: none;
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .custom-file-input {
+      width: 100%;
+      height: calc(2.25rem + 2px);
+      padding: .375rem 1.75rem .375rem .75rem;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      font-size: 1.1rem;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      box-shadow: inset 0 0.2rem 0.4rem rgba(0, 0, 0, 0.05);
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .custom-file-input:focus {
+      border-color: #80bdff;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .custom-file-label {
+      display: block;
+      margin-bottom: 0;
+      line-height: 1.5;
+      padding: .375rem 1.75rem .375rem .75rem;
+      height: calc(2.25rem + 2px);
+      color: #495057;
+      background-color: #e9ecef;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      font-size: 1.1rem;
+    }
+
+    .custom-file-label::after {
+      content: 'Browse';
+      display: inline-block;
+      padding: .375rem .75rem;
+      margin-left: -1px;
+      height: calc(2.25rem + 2px);
+      line-height: 1.5;
+      color: #495057;
+      background-color: #e9ecef;
+      border: 1px solid #ced4da;
+      border-radius: 0 .25rem .25rem 0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Banana Leaf Disease Detection</h1>
+    <p>Predicting banana leaf diseases is essential for maintaining the health and productivity of banana crops. Early and accurate detection helps farmers take timely actions to prevent the spread of diseases, protect their harvest, and ensure food security.</p>
+    
+    <form id="uploadForm" action="prediction/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="imageInput" name="leafImage">
+          <label class="custom-file-label" for="imageInput">Choose file</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-custom" id="submitBtn">Submit</button>
+      </div>
+      <div class="alert alert-danger" id="warningMsg">
+        No image selected. Please choose an image to proceed.
+      </div>
+    </form>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const warningMsg = document.getElementById('warningMsg');
+
+    imageInput.addEventListener('change', function() {
+      const fileName = imageInput.files[0] ? imageInput.files[0].name : 'Choose file';
+      document.querySelector('.custom-file-label').textContent = fileName;
+      if (imageInput.files.length > 0) {
+        warningMsg.style.display = 'none';
+      } else {
+        warningMsg.style.display = 'block';
+      }
+    });
+
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+      if (imageInput.files.length === 0) {
+        event.preventDefault();
+        warningMsg.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
